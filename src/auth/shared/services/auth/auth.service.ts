@@ -14,7 +14,6 @@ export interface User {
 export class AuthService {
 
   auth$ = this.af.authState.do((next: firebase.User) => {
-    console.log('next', next);
     if (!next) {
       this.store.set('user', null);
       return;
@@ -37,6 +36,10 @@ export class AuthService {
 
   loginUser(email: string, password: string) {
     return this.af.auth.signInWithEmailAndPassword(email, password);
+  }
+
+  logoutUser() {
+    return this.af.auth.signOut();
   }
 
 }
