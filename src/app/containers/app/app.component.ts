@@ -7,6 +7,9 @@ import { Component } from '@angular/core';
     <div>
       Hello Ultimate Angular!
     </div>
+    <div class="wrapper">
+      <router-outlet></router-outlet>
+    </div>
   `
 })
 export class AppComponent {
