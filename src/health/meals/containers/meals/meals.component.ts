@@ -28,5 +28,7 @@ export class MealsComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-
+  removeMeal(event: Meal) {
+    this.mealsService.removeMeal(event.$key);
+  }
 }
