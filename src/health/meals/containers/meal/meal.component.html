@@ -2,7 +2,9 @@
   <div class="meal__title">
     <h1>
       <img src="/img/food.svg" alt="">
-      <span>Create meal</span>
+      <span *ngIf="meal$ | async as meal; else title;">
+        {{meal.name ? 'Edit': 'Create'}} meal
+      </span>
     </h1>
   </div>
   <div>

@@ -4,6 +4,9 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { AuthService } from '../../../../auth/shared/services/auth/auth.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/of';
 
 export interface Meal {
   name: string;
@@ -38,4 +41,12 @@ export class MealsService {
     return this.db.list(`meals/${this.userId}`).remove(key);
   }
 
+  getMeal(key: string) {
+    if (!key) {
+      return Observable.of({});
+    }
+    return this.store.select<Meal[]>('meals')
+      .filter(Boolean)
+      .map(meals => meals.find((meal: Meal) => meal.$key === key));
+  }
 }

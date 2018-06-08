@@ -1,17 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Meal, MealsService } from '../../../shared/services/meals/meals.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/switchMap'
 
 @Component({
   selector: 'meal',
   styleUrls: ['meal.component.scss'],
   templateUrl: './meal.component.html'
 })
-export class MealComponent {
+export class MealComponent implements OnInit, OnDestroy {
+
+  meal$: Observable<Meal>;
+  subcription: Subscription;
 
   constructor(
     private mealsService: MealsService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   async addMeal(event: Meal) {
@@ -23,4 +30,15 @@ export class MealComponent {
   private backToMeals() {
     this.router.navigate(['meals']);
   }
+
+  ngOnInit(): void {
+    this.subcription = this.mealsService.meals$.subscribe();
+    this.meal$ = this.route.params
+      .switchMap(param => this.mealsService.getMeal(param.id));
+  }
+
+  ngOnDestroy(): void {
+    this.subcription.unsubscribe();
+  }
+
 }
