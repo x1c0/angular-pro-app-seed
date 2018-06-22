@@ -5,10 +5,17 @@
       <span *ngIf="meal$ | async as meal; else title;">
         {{meal.name ? 'Edit': 'Create'}} meal
       </span>
+      <ng-template #title>
+        Loading...
+      </ng-template>
     </h1>
   </div>
   <div *ngIf="meal$ | async as meal; else loading">
-    <meal-form (create)="addMeal($event)">
+    <meal-form
+      [meal]="meal"
+      (create)="addMeal($event)"
+      (update)="updateMeal($event)"
+      (remove)="removeMeal($event)">
     </meal-form>
   </div>
   <ng-template #loading>
