@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { MealsService } from './services/meals/meals.service';
 import { ListItemComponent } from './components/list-item/list-item.component';
+import { WorkoutsService } from './services/workouts/workouts.service';
 
 @NgModule({
   imports: [
@@ -23,7 +24,10 @@ export class SharedHealthModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedHealthModule,
-      providers: [MealsService]
+      providers: [
+        MealsService,
+        WorkoutsService
+      ]
     }
   }
 }
