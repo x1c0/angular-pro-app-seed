@@ -29,7 +29,16 @@ export class WorkoutFormComponent implements OnChanges {
 
   form = this.fb.group({
     name: ['', Validators.required],
-    type: 'strength'
+    type: 'strength',
+    strength: this.fb.group({
+      reps: 0,
+      sets: 0,
+      weight: 0
+    }),
+    endurance: this.fb.group({
+      distance: 0,
+      duration: 0
+    })
   });
 
   constructor(private fb: FormBuilder) {}
@@ -41,10 +50,6 @@ export class WorkoutFormComponent implements OnChanges {
   get required() {
     const nameInput = this.form.get('name');
     return nameInput.hasError('required') && nameInput.touched;
-  }
-
-  addIngredient() {
-    this.ingredients.push(new FormControl(''))
   }
 
   createWorkout() {
@@ -63,32 +68,19 @@ export class WorkoutFormComponent implements OnChanges {
     this.remove.emit(this.form.value);
   }
 
-  removeIngredient(index: number) {
-    this.ingredients.removeAt(index);
-  }
-
   toggle() {
     this.toggled = !this.toggled
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    /*if (this.workout && this.workout.name) {
+    if (this.workout && this.workout.name) {
       this.exists = true;
-      this.emptyIngredients();
-
       const value = this.workout;
       this.form.patchValue(value);
-      if (value.ingredients) {
-        for (const item of value.ingredients) {
-          this.ingredients.push(new FormControl(item));
-        }
-      }
-    }*/
+    }
   }
 
-  private emptyIngredients() {
-    while (this.ingredients.controls.length) {
-      this.ingredients.removeAt(0);
-    }
+  get placeholder() {
+    return `e.g. ${this.form.get('type').value === 'strength' ? 'Benchpress' : 'Treadmill'}`
   }
 }
